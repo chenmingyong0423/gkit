@@ -14,7 +14,9 @@
 
 package slice
 
-import "github.com/chenmingyong0423/gkit/internal/errors"
+import (
+	"github.com/chenmingyong0423/gkit/internal/errors"
+)
 
 // DeleteByIndex 删除下标为 idx 的元素
 func DeleteByIndex[T any](data []T, index int) ([]T, error) {
@@ -25,6 +27,13 @@ func DeleteByIndex[T any](data []T, index int) ([]T, error) {
 	return DeleteByFilterFunc[T](data, func(idx int, item T) bool {
 		return idx == index
 	}), nil
+}
+
+// DeleteByItem 删除指定元素 item
+func DeleteByItem[T comparable](data []T, dstItem T) []T {
+	return DeleteByFilterFunc[T](data, func(idx int, srcItem T) bool {
+		return dstItem == srcItem
+	})
 }
 
 // DeleteByFilterFunc 删除符合条件的元素
