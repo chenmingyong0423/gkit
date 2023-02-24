@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package slice
+package errors
 
-type equalFunc[T any] func(srcItem, dstItem T) bool
+import "fmt"
 
-type filterFunc[T any] func(idx int, item T) bool
+func NewIndexOutOfRange(length, index int) error {
+	return fmt.Errorf("gkit: index out of range, length: %d, index: %d", length, index)
+}
