@@ -206,3 +206,49 @@ func TestDeleteByIndex(t *testing.T) {
 		})
 	}
 }
+
+func TestDeleteByItem(t *testing.T) {
+	testCases := []struct {
+		name     string
+		data     []int
+		item     int
+		expected []int
+	}{
+		{
+			name:     "空切片",
+			data:     []int{},
+			item:     1,
+			expected: []int{},
+		},
+		{
+			name:     "删除不存在的元素",
+			data:     []int{2, 4, 6, 8},
+			item:     1,
+			expected: []int{2, 4, 6, 8},
+		},
+		{
+			name:     "删除第一个元素",
+			data:     []int{2, 4, 6, 8},
+			item:     2,
+			expected: []int{4, 6, 8},
+		},
+		{
+			name:     "删除最后一个元素",
+			data:     []int{2, 4, 6, 8},
+			item:     8,
+			expected: []int{2, 4, 6},
+		},
+		{
+			name:     "删除多个元素",
+			data:     []int{2, 4, 2, 8, 2},
+			item:     2,
+			expected: []int{4, 8},
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			res := DeleteByItem[int](tt.data, tt.item)
+			assert.Equal(t, tt.expected, res)
+		})
+	}
+}
