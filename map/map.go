@@ -16,19 +16,19 @@ package maps
 
 // Keys extracts all the keys from the given map and returns them as a slice.
 // Parameters:
-//   - mp: the map to extract keys from
+// - mp: the map to extract keys from
 //
 // Returns:
-//   - a slice containing all the keys in the given map
+// - a slice containing all the keys in the given map
 //
 // Keys 从给定的 map 中提取所有的键，并将它们以 slice 的形式返回
 // 参数：
-//   - mp: 要提取键的 map
-//   - Note: The order of keys is random
+// - mp: 要提取键的 map
+// - Note: The order of keys is random
 //
 // 返回值：
-//   - 一个 slice，其中包含了给定 map 中的所有键
-//   - 注意：键的顺序是随机的
+// - 一个 slice，其中包含了给定 map 中的所有键
+// - 注意：键的顺序是随机的
 func Keys[K comparable, V any](mp map[K]V) []K {
 	keys := make([]K, 0, len(mp))
 	for k := range mp {
@@ -39,19 +39,19 @@ func Keys[K comparable, V any](mp map[K]V) []K {
 
 // Values extracts all the values from the given map and returns them as a slice.
 // Parameters:
-//   - mp: the map to extract values from
+// - mp: the map to extract values from
 //
 // Returns:
-//   - a slice containing all the values in the given map
-//   - Note: The order of values is random
+// - a slice containing all the values in the given map
+// - Note: The order of values is random
 //
 // Values 从给定的 map 中提取所有的值，并将它们以 slice 的形式返回
 // 参数：
-//   - mp: 要提取值的 map
+// - mp: 要提取值的 map
 //
 // 返回值：
-//   - 一个 slice，其中包含了给定 map 中的所有值
-//   - 注意：值的顺序是随机的
+// - 一个 slice，其中包含了给定 map 中的所有值
+// - 注意：值的顺序是随机的
 func Values[K comparable, V any](mp map[K]V) []V {
 	values := make([]V, 0, len(mp))
 	for _, v := range mp {
@@ -62,19 +62,19 @@ func Values[K comparable, V any](mp map[K]V) []V {
 
 // KeyValues extracts all the keys and values from the given map and returns them as separate slices.
 // Parameters:
-//   - mp: the map to extract key-value pairs from
+// - mp: the map to extract key-value pairs from
 //
 // Returns:
-//   - a slice containing all the keys in the given map, and a slice containing all the values in the given map
-//   - Note: The order of keys and values is random
+// - a slice containing all the keys in the given map, and a slice containing all the values in the given map
+// - Note: The order of keys and values is random
 //
 // KeyValues 从给定的 map 中提取所有的键和值，并将它们分别以 slice 的形式返回
 // 参数：
-//   - mp: 要提取键值对的 map
+// - mp: 要提取键值对的 map
 //
 // 返回值：
-//   - 一个包含所有键的 slice，一个包含所有值的 slice
-//   - 注意：键和值的顺序是随机的
+// - 一个包含所有键的 slice，一个包含所有值的 slice
+// - 注意：键和值的顺序是随机的
 func KeyValues[K comparable, V any](mp map[K]V) ([]K, []V) {
 	keys := make([]K, 0, len(mp))
 	values := make([]V, 0, len(mp))

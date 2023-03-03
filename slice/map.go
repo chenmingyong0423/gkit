@@ -14,8 +14,21 @@
 
 package slice
 
-// 将切片转换成 map
-// 转化之后方便切片后续的某些操作，如去重、取交集等。
+// Deduplicate removes duplicate elements from the given slice and returns a new slice.
+// This function has a time complexity of O(n), where n is the length of the input slice.
+// Parameters:
+// - data: the slice to deduplicate
+//
+// Returns:
+// - the deduplicated new slice
+//
+// toMap 将给定的 slice 转换为一个 map，其中键为元素，值为 struct{}{}（一个空结构体）。
+// 使用 struct{}{} 可以将 map 中的内存使用降至最小，因为它不会分配任何空间。
+// 参数：
+// - data: 要转换为 map 的 slice
+//
+// 返回值：
+// - 转换后的 map
 func toMap[T comparable](data []T) map[T]struct{} {
 	res := make(map[T]struct{}, len(data))
 	for _, k := range data {

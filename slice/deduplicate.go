@@ -14,7 +14,20 @@
 
 package slice
 
-// Deduplicate 去除重复元素
+// Deduplicate removes duplicate elements from the given slice and returns a new slice.
+// This function has a time complexity of O(n), where n is the length of the input slice.
+// Parameters:
+// - data: the slice to deduplicate
+//
+// Returns:
+// - the deduplicated new slice
+//
+// Deduplicate 从给定的 slice 中去除重复的元素，并返回一个新的 slice。
+// 参数：
+// - data: 要去重的 slice
+//
+// 返回值：
+// - 去重后的新 slice
 func Deduplicate[T comparable](data []T) []T {
 	// 转成 map，自动去重
 	mp := toMap[T](data)
@@ -25,8 +38,21 @@ func Deduplicate[T comparable](data []T) []T {
 	return res
 }
 
-// DeduplicateByEqFunc 如果切片的元素类型比较复杂（如结构体），可以使用这个方法进行去重，去重条件由调用方自定义
-// 只保留第一个出现的元素
+// DeduplicateByEqFunc function takes a generic slice "data" and an equivalence comparison function "equalFunc[T]", and returns a new slice with duplicate elements removed.
+// Parameters:
+// - data: a slice of any type "[]T" that needs to be deduplicated.
+// - equalFunc: a function of type "equalFunc[T]" used to compare whether two elements are equal, where "T" can be any type.
+//
+// Return:
+// - a new deduplicated slice of type "[]T".
+//
+// DeduplicateByEqFunc 函数接受一个泛型切片 data 和一个等价比较函数 equalFunc[T]，并返回一个新的切片，其中重复的元素已经被去除了。
+// 参数：
+// - data: 待去重的切片，类型为 []T，T 为任意类型；
+// - equalFunc: 用于比较两个元素是否相等的函数，类型为 equalFunc[T]，T 为任意类型。
+//
+// 返回值：
+// - 去重后的新切片，类型为 []T
 func DeduplicateByEqFunc[T any](data []T, equalFunc equalFunc[T]) []T {
 	res := make([]T, 0, len(data))
 	for i, val := range data {
