@@ -14,14 +14,44 @@
 
 package slice
 
-// Contains 判断 data 里是否包含 item
+// Contains checks whether the given slice contains the specified element.
+// Parameters:
+// - data: the slice to search
+// - item: the element to search for
+//
+// Returns:
+// - true if the specified element is found; false otherwise
+//
+// Contains 检查给定的 slice 中是否包含指定元素
+// 参数：
+// - data: 要搜索的 slice
+// - item: 要查找的元素
+//
+// 返回值：
+// - 如果找到了指定的元素，则为 true；否则为 false
 func Contains[T comparable](data []T, item T) bool {
 	return ContainsByFunc(data, item, func(srcItem, dstItem T) bool {
 		return srcItem == dstItem
 	})
 }
 
-// ContainsByFunc 根据函数返回值判断 data 里是否包含 item
+// ContainsByFunc checks whether the given slice contains the specified element using the provided equality function.
+// Parameters:
+// - data: the slice to search
+// - dstItem: the element to search for
+// - equalFunc: the function used to compare element equality
+//
+// Returns:
+// - true if the specified element is found; false otherwise
+//
+// ContainsByFunc 通过提供的相等函数，检查给定的 slice 中是否包含指定元素
+// 参数：
+// - data: 要搜索的 slice
+// - dstItem: 要查找的元素
+// - equalFunc: 用于比较元素相等性的函数
+//
+// 返回值：
+// - 如果找到了指定的元素，则为 true；否则为 false
 func ContainsByFunc[T any](data []T, dstItem T, equalFunc equalFunc[T]) bool {
 	for _, srcItem := range data {
 		if equalFunc(srcItem, dstItem) {
