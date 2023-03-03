@@ -17,7 +17,7 @@ package slice
 // Deduplicate removes duplicate elements from the given slice and returns a new slice.
 // This function has a time complexity of O(n), where n is the length of the input slice.
 // Parameters:
-// - data: the slice to deduplicate
+// - data: the slice to deduplicate, Because of map, the location of elements can change even if there are no duplicate elements
 //
 // Returns:
 // - the deduplicated new slice
@@ -27,7 +27,7 @@ package slice
 // - data: 要去重的 slice
 //
 // 返回值：
-// - 去重后的新 slice
+// - 去重后的新 slice，由于使用了 map，即使没有重复元素，元素位置也可能会发生改变
 func Deduplicate[T comparable](data []T) []T {
 	// 转成 map，自动去重
 	mp := toMap[T](data)
