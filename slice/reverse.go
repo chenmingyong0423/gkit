@@ -34,3 +34,16 @@ func Reverse[T any](data []T) []T {
 	}
 	return res
 }
+
+// ReverseInplace Reverses the original slice
+// Parameter:
+//   - data: indicates the specified slice
+//
+// ReverseInplace 在原始切片上进行反转
+// 参数：
+//   - data：指定的切片
+func ReverseInplace[T any](data []T) {
+	for i, j := 0, len(data)-1; i < j; i, j = i+1, j-1 {
+		data[i], data[j] = data[j], data[i]
+	}
+}
