@@ -30,6 +30,13 @@ package slice
 // 返回值：
 // - 一个新的切片，其中包含原始切片和新切片的元素，元素无重复。
 func AppendDistinct[T comparable](s []T, items ...T) []T {
+	if len(s) == 0 {
+		if items != nil {
+			return items
+		} else {
+			return []T{}
+		}
+	}
 	m := toMap[T](s)
 	for _, item := range items {
 		if _, ok := m[item]; !ok {
