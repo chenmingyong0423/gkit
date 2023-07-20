@@ -30,20 +30,14 @@ package slice
 // 返回值：
 // - 一个新的切片，其中包含原始切片和新切片的元素，元素无重复。
 func AppendDistinct[T comparable](s []T, items ...T) []T {
-	if len(s) == 0 {
-		if items != nil {
-			return items
-		} else {
-			return []T{}
-		}
+	result := make([]T, 0, len(s)+len(items))
+	for _, item := range s {
+		result = append(result, item)
 	}
-	m := toMap[T](s)
 	for _, item := range items {
-		if _, ok := m[item]; !ok {
-			s = append(s, item)
-		}
+		result = append(result, item)
 	}
-	return s
+	return Deduplicate[T](result)
 }
 
 // AddDistinctFunc appends the element of the given slice to the target slice. If s or items are nil, they are processed as empty slices.
@@ -64,17 +58,14 @@ func AppendDistinct[T comparable](s []T, items ...T) []T {
 // 返回值：
 // - 一个新的切片，其中包含原始切片和新切片的元素，元素无重复。
 func AddDistinctFunc[T any](s []T, equal equalFunc[T], items ...T) []T {
-	if len(s) == 0 {
-		if items != nil {
-			return items
-		} else {
-			return []T{}
-		}
+	result := make([]T, 0, len(s)+len(items))
+	for _, item := range s {
+		result = append(result, item)
 	}
 	for _, item := range items {
-		if !ContainsByFunc[T](s, item, equal) {
-			s = append(s, item)
+		if !ContainsByFunc[T](result, item, equal) {
+			result = append(result, item)
 		}
 	}
-	return s
+	return result
 }
