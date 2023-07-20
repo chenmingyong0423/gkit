@@ -78,7 +78,7 @@ func TestAppendDistinct(t *testing.T) {
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, AppendDistinct(tt.s, tt.items...))
+			assert.ElementsMatch(t, tt.want, AppendDistinct(tt.s, tt.items...))
 		})
 	}
 }
@@ -255,7 +255,7 @@ func TestAddDistinctFunc(t *testing.T) {
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, AddDistinctFunc(tt.s, tt.equal, tt.items...))
+			assert.ElementsMatch(t, tt.want, AddDistinctFunc(tt.s, tt.equal, tt.items...))
 		})
 	}
 }

@@ -61,3 +61,33 @@ func Test_toMap(t *testing.T) {
 		})
 	}
 }
+
+func Test_mapKeyToSlice(t *testing.T) {
+	testCases := []struct {
+		name string
+		data map[int]struct{}
+		want []int
+	}{
+		{
+			name: "make the nil map to slice",
+			data: nil,
+			want: []int{},
+		},
+		{
+			name: "make the empty map to slice",
+			data: map[int]struct{}{},
+			want: []int{},
+		},
+		{
+			name: "make the map to slice",
+			data: map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}},
+			want: []int{1, 2, 3, 4},
+		},
+	}
+
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.ElementsMatch(t, tt.want, mapKeyToSlice(tt.data))
+		})
+	}
+}
