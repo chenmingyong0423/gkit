@@ -36,3 +36,12 @@ func toMap[T comparable](data []T) map[T]struct{} {
 	}
 	return res
 }
+
+// mapKeyToSlice 将给定的 map 的 key 转成切片
+func mapKeyToSlice[T comparable, V any](data map[T]V) []T {
+	result := make([]T, 0, len(data))
+	for key := range data {
+		result = append(result, key)
+	}
+	return result
+}
