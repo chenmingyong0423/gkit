@@ -32,3 +32,14 @@ func CamelToSnake(camelCase string) string {
 	}
 	return result.String()
 }
+
+// BigCamelToSmallCamel 大驼峰格式的字符串转小驼峰格式的字符串
+// UserAgent → userAgent
+func BigCamelToSmallCamel(bigCamel string) string {
+	if len(bigCamel) == 0 {
+		return ""
+	}
+
+	firstChar := strings.ToLower(string(bigCamel[0]))
+	return firstChar + bigCamel[1:]
+}

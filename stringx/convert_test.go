@@ -58,3 +58,43 @@ func TestCamelToSnake(t *testing.T) {
 		})
 	}
 }
+
+func TestBigCamelToSmallCamel(t *testing.T) {
+
+	testCases := []struct {
+		name     string
+		bigCamel string
+
+		want string
+	}{
+		{
+			name:     "empty string",
+			bigCamel: "",
+
+			want: "",
+		},
+		{
+			name:     "Not Camel string",
+			bigCamel: "User",
+
+			want: "user",
+		},
+		{
+			name:     "SmallCamel string",
+			bigCamel: "userAgent",
+
+			want: "userAgent",
+		},
+		{
+			name:     "BigCamel string",
+			bigCamel: "UserAgent",
+
+			want: "userAgent",
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, BigCamelToSmallCamel(tt.bigCamel))
+		})
+	}
+}
