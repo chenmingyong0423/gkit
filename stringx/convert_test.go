@@ -15,8 +15,9 @@
 package stringx
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCamelToSnake(t *testing.T) {
@@ -95,6 +96,39 @@ func TestBigCamelToSmallCamel(t *testing.T) {
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(t, tt.want, BigCamelToSmallCamel(tt.bigCamel))
+		})
+	}
+}
+
+func TestCapitalizeFirstLetter(t *testing.T) {
+	testCases := []struct {
+		name  string
+		input string
+
+		want string
+	}{
+		{
+			name:  "empty string",
+			input: "",
+
+			want: "",
+		},
+		{
+			name:  "Not capital string",
+			input: "user",
+
+			want: "User",
+		},
+		{
+			name:  "Capital string",
+			input: "User",
+
+			want: "User",
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, CapitalizeFirstLetter(tt.input))
 		})
 	}
 }
