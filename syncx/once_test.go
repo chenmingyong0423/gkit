@@ -16,9 +16,10 @@ package syncx
 
 import (
 	"errors"
-	"github.com/stretchr/testify/assert"
 	"sync"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestOnce_Do(t *testing.T) {
@@ -52,26 +53,37 @@ func TestOnce_Do(t *testing.T) {
 	for _, tt := range testCases {
 		once := Once{}
 		t.Run(tt.name, func(t *testing.T) {
-			var err error
 			var wg sync.WaitGroup
+			var mu sync.Mutex
+			var firstErr error
+
 			f := func() error {
 				if tt.makeError {
 					return errors.New("error")
 				}
+				mu.Lock()
+				defer mu.Unlock()
 				tt.resource = map[string]string{
 					"k": "v",
 				}
 				return nil
 			}
+
 			for i := 0; i < 5; i++ {
 				wg.Add(1)
 				go func() {
 					defer wg.Done()
-					err = once.Do(f)
+					err := once.Do(f)
+					mu.Lock()
+					if err != nil && firstErr == nil {
+						firstErr = err
+					}
+					mu.Unlock()
+
 				}()
 			}
 			wg.Wait()
-			assert.Equal(t, tt.wantErr, err)
+			assert.Equal(t, tt.wantErr, firstErr)
 			assert.Equal(t, tt.wantResource, tt.resource)
 		})
 	}

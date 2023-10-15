@@ -31,12 +31,8 @@ package slice
 // - 一个新的切片，其中包含原始切片和新切片的元素，元素无重复。
 func AppendDistinct[T comparable](s []T, items ...T) []T {
 	result := make([]T, 0, len(s)+len(items))
-	for _, item := range s {
-		result = append(result, item)
-	}
-	for _, item := range items {
-		result = append(result, item)
-	}
+	result = append(result, s...)
+	result = append(result, items...)
 	return Deduplicate[T](result)
 }
 
@@ -59,9 +55,7 @@ func AppendDistinct[T comparable](s []T, items ...T) []T {
 // - 一个新的切片，其中包含原始切片和新切片的元素，元素无重复。
 func AddDistinctFunc[T any](s []T, equal equalFunc[T], items ...T) []T {
 	result := make([]T, 0, len(s)+len(items))
-	for _, item := range s {
-		result = append(result, item)
-	}
+	result = append(result, s...)
 	for _, item := range items {
 		if !ContainsByFunc[T](result, item, equal) {
 			result = append(result, item)

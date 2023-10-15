@@ -61,11 +61,10 @@ func TestContains(t *testing.T) {
 
 func TestContainsByFunc(t *testing.T) {
 	type testCase[T any] struct {
-		name      string
-		data      []T
-		dstItem   T
-		equalFunc equalFunc[T]
-		want      bool
+		name    string
+		data    []T
+		dstItem T
+		want    bool
 	}
 	tests := []testCase[int]{
 		{

@@ -15,8 +15,9 @@
 package slice
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestIntersectionSet(t *testing.T) {
@@ -88,7 +89,7 @@ func TestIntersectionSetFunc(t *testing.T) {
 			slice1: []user{},
 			slice2: []user{},
 			equal: func(srcItem, dstItem user) bool {
-				return srcItem.name == dstItem.name && srcItem.age == srcItem.age
+				return srcItem.name == dstItem.name && srcItem.age == dstItem.age
 			},
 
 			want: []user{},
@@ -98,7 +99,7 @@ func TestIntersectionSetFunc(t *testing.T) {
 			slice1: []user{{name: "陈明勇", age: 24}},
 			slice2: []user{},
 			equal: func(srcItem, dstItem user) bool {
-				return srcItem.name == dstItem.name && srcItem.age == srcItem.age
+				return srcItem.name == dstItem.name && srcItem.age == dstItem.age
 			},
 
 			want: []user{},
@@ -108,7 +109,7 @@ func TestIntersectionSetFunc(t *testing.T) {
 			slice1: []user{{name: "陈明勇", age: 24}},
 			slice2: []user{{name: "cmy", age: 24}},
 			equal: func(srcItem, dstItem user) bool {
-				return srcItem.name == dstItem.name && srcItem.age == srcItem.age
+				return srcItem.name == dstItem.name && srcItem.age == dstItem.age
 			},
 
 			want: []user{},
@@ -118,7 +119,7 @@ func TestIntersectionSetFunc(t *testing.T) {
 			slice1: []user{{name: "陈明勇", age: 24}, {name: "n", age: 24}},
 			slice2: []user{{name: "陈明勇", age: 24}},
 			equal: func(srcItem, dstItem user) bool {
-				return srcItem.name == dstItem.name && srcItem.age == srcItem.age
+				return srcItem.name == dstItem.name && srcItem.age == dstItem.age
 			},
 
 			want: []user{{name: "陈明勇", age: 24}},
@@ -128,7 +129,7 @@ func TestIntersectionSetFunc(t *testing.T) {
 			slice1: []user{{name: "陈明勇", age: 24}, {name: "n", age: 24}, {name: "n", age: 24}, {name: "o", age: 24}},
 			slice2: []user{{name: "陈明勇", age: 24}, {name: "陈明勇", age: 24}, {name: "n", age: 24}, {name: "m", age: 24}},
 			equal: func(srcItem, dstItem user) bool {
-				return srcItem.name == dstItem.name && srcItem.age == srcItem.age
+				return srcItem.name == dstItem.name && srcItem.age == dstItem.age
 			},
 
 			want: []user{{name: "陈明勇", age: 24}, {name: "n", age: 24}},
