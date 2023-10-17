@@ -15,30 +15,45 @@
 package syncx
 
 import (
-	"sync"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMapKeyLock_Lock(t *testing.T) {
-	type fields struct {
-		locks sync.Map
-	}
-	type args struct {
-		key string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &MapKeyLock{
-				locks: tt.fields.locks,
-			}
-			l.Lock(tt.args.key)
-		})
-	}
+	lock := MapKeyLock{}
+	key1, key2 := "key1", "key2"
+	lock.Lock(key1)
+	assert.False(t, lock.TryLock(key1))
+	assert.False(t, lock.TryRLock(key1))
+
+	assert.True(t, lock.TryLock(key2))
+
+	lock.Unlock(key1)
+
+	assert.True(t, lock.TryLock(key1))
+	defer lock.Unlock(key1)
+
+	lock.Unlock(key2)
+}
+
+func TestMapKeyLock_RLock(t *testing.T) {
+	lock := MapKeyLock{}
+	key1, key2 := "key1", "key2"
+
+	lock.RLock(key1)
+	assert.False(t, lock.TryLock(key1))
+	assert.True(t, lock.TryRLock(key1))
+
+	lock.RLock(key2)
+
+	lock.RUnLock(key1)
+
+	assert.False(t, lock.TryLock(key1))
+	lock.RUnLock(key1)
+
+	assert.True(t, lock.TryLock(key1))
+	defer lock.Unlock(key1)
+
+	lock.RUnLock(key2)
 }
