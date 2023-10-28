@@ -15,8 +15,9 @@
 package stringx
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCamelToSnake(t *testing.T) {
@@ -55,6 +56,79 @@ func TestCamelToSnake(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			snake := CamelToSnake(tt.camelCase)
 			assert.Equal(t, tt.want, snake)
+		})
+	}
+}
+
+func TestBigCamelToSmallCamel(t *testing.T) {
+
+	testCases := []struct {
+		name     string
+		bigCamel string
+
+		want string
+	}{
+		{
+			name:     "empty string",
+			bigCamel: "",
+
+			want: "",
+		},
+		{
+			name:     "Not Camel string",
+			bigCamel: "User",
+
+			want: "user",
+		},
+		{
+			name:     "SmallCamel string",
+			bigCamel: "userAgent",
+
+			want: "userAgent",
+		},
+		{
+			name:     "BigCamel string",
+			bigCamel: "UserAgent",
+
+			want: "userAgent",
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, BigCamelToSmallCamel(tt.bigCamel))
+		})
+	}
+}
+
+func TestCapitalizeFirstLetter(t *testing.T) {
+	testCases := []struct {
+		name  string
+		input string
+
+		want string
+	}{
+		{
+			name:  "empty string",
+			input: "",
+
+			want: "",
+		},
+		{
+			name:  "Not capital string",
+			input: "user",
+
+			want: "User",
+		},
+		{
+			name:  "Capital string",
+			input: "User",
+
+			want: "User",
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, CapitalizeFirstLetter(tt.input))
 		})
 	}
 }

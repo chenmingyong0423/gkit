@@ -32,3 +32,27 @@ func CamelToSnake(camelCase string) string {
 	}
 	return result.String()
 }
+
+// BigCamelToSmallCamel 大驼峰格式的字符串转小驼峰格式的字符串
+// UserAgent → userAgent
+func BigCamelToSmallCamel(bigCamel string) string {
+	if len(bigCamel) == 0 {
+		return ""
+	}
+
+	firstChar := strings.ToLower(string(bigCamel[0]))
+	return firstChar + bigCamel[1:]
+}
+
+// CapitalizeFirstLetter 将首字母转换为大写
+// user → User
+func CapitalizeFirstLetter(input string) string {
+	if len(input) == 0 {
+		return input
+	}
+
+	firstChar := []rune(input)[:1]
+	firstCharUpper := string(unicode.ToUpper(firstChar[0]))
+
+	return firstCharUpper + input[1:]
+}

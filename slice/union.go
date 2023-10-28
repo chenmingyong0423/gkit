@@ -34,9 +34,7 @@ func UnionFunc[T any](equal equalFunc[T], slices ...[]T) []T {
 	}
 	result := make([]T, 0, totalLength)
 	for _, s := range slices {
-		for _, item := range s {
-			result = append(result, item)
-		}
+		result = append(result, s...)
 	}
 	return DeduplicateByEqFunc[T](result, equal)
 }
