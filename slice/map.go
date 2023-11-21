@@ -14,6 +14,15 @@
 
 package slice
 
+// Map 将给定的切片转换成一个新的切片，其中每个元素都是通过给定的函数 fn 转换得到的。
+func Map[Src any, Dst any](src []Src, fn func(idx int, s Src) Dst) []Dst {
+	dst := make([]Dst, len(src))
+	for i, s := range src {
+		dst[i] = fn(i, s)
+	}
+	return dst
+}
+
 // Deduplicate removes duplicate elements from the given slice and returns a new slice.
 // This function has a time complexity of O(n), where n is the length of the input slice.
 // Parameters:
