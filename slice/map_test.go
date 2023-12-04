@@ -91,3 +91,50 @@ func Test_mapKeyToSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestMap(t *testing.T) {
+	type user struct {
+		id   int
+		name string
+	}
+
+	testCases := []struct {
+		name string
+		data []user
+		fn   func(idx int, u user) int
+		want []int
+	}{
+		{
+			name: "nil slice",
+			data: nil,
+			fn: func(idx int, u user) int {
+				return u.id
+			},
+			want: []int{},
+		},
+		{
+			name: "empty slice",
+			data: []user{},
+			fn: func(idx int, u user) int {
+				return u.id
+			},
+			want: []int{},
+		},
+		{
+			name: "normal slice",
+			data: []user{
+				{id: 1, name: "陈明勇"},
+				{id: 2, name: "Gopher"},
+			},
+			fn: func(idx int, u user) int {
+				return u.id
+			},
+			want: []int{1, 2},
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.ElementsMatch(t, tc.want, Map(tc.data, tc.fn))
+		})
+	}
+}

@@ -16,6 +16,15 @@ package syncx
 
 import "sync"
 
+type Locker interface {
+	Lock(key string)
+	Unlock(key string)
+	RLock(key string)
+	RUnLock(key string)
+	TryLock(key string) bool
+	TryRLock(key string) bool
+}
+
 type MapKeyLock struct {
 	locks sync.Map
 }

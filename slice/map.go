@@ -14,6 +14,15 @@
 
 package slice
 
+// Map 将给定函数返回的值组成一个新的 slice 并返回。
+func Map[Src any, Dst any](src []Src, fn func(idx int, src Src) Dst) []Dst {
+	dst := make([]Dst, len(src))
+	for idx, src := range src {
+		dst[idx] = fn(idx, src)
+	}
+	return dst
+}
+
 // Deduplicate removes duplicate elements from the given slice and returns a new slice.
 // This function has a time complexity of O(n), where n is the length of the input slice.
 // Parameters:
