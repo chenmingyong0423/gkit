@@ -14,11 +14,19 @@
 
 package slice
 
+<<<<<<< HEAD
 // Map 将给定函数返回的值组成一个新的 slice 并返回。
 func Map[Src any, Dst any](src []Src, fn func(idx int, src Src) Dst) []Dst {
 	dst := make([]Dst, len(src))
 	for idx, src := range src {
 		dst[idx] = fn(idx, src)
+=======
+// Map 将给定的切片转换成一个新的切片，其中每个元素都是通过给定的函数 fn 转换得到的。
+func Map[Src any, Dst any](src []Src, fn func(idx int, s Src) Dst) []Dst {
+	dst := make([]Dst, len(src))
+	for i, s := range src {
+		dst[i] = fn(i, s)
+>>>>>>> 98bbb5c121c41c2e03e9b9b2384ed4708f29be11
 	}
 	return dst
 }

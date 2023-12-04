@@ -100,20 +100,31 @@ func TestMap(t *testing.T) {
 
 	testCases := []struct {
 		name string
+<<<<<<< HEAD
 		data []user
 		fn   func(idx int, u user) int
+=======
+		src  []user
+		fn   func(idx int, s user) int
+>>>>>>> 98bbb5c121c41c2e03e9b9b2384ed4708f29be11
 		want []int
 	}{
 		{
 			name: "nil slice",
+<<<<<<< HEAD
 			data: nil,
 			fn: func(idx int, u user) int {
 				return u.id
 			},
+=======
+			src:  nil,
+			fn:   func(idx int, s user) int { return s.id },
+>>>>>>> 98bbb5c121c41c2e03e9b9b2384ed4708f29be11
 			want: []int{},
 		},
 		{
 			name: "empty slice",
+<<<<<<< HEAD
 			data: []user{},
 			fn: func(idx int, u user) int {
 				return u.id
@@ -129,12 +140,29 @@ func TestMap(t *testing.T) {
 			fn: func(idx int, u user) int {
 				return u.id
 			},
+=======
+			src:  []user{},
+			fn:   func(idx int, s user) int { return s.id },
+			want: []int{},
+		},
+		{
+			name: "non-empty slice",
+			src: []user{
+				{id: 1, name: "陈明勇"},
+				{id: 2, name: "Gopher"},
+			},
+			fn:   func(idx int, s user) int { return s.id },
+>>>>>>> 98bbb5c121c41c2e03e9b9b2384ed4708f29be11
 			want: []int{1, 2},
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+<<<<<<< HEAD
 			assert.ElementsMatch(t, tc.want, Map(tc.data, tc.fn))
+=======
+			assert.ElementsMatch(t, tc.want, Map(tc.src, tc.fn))
+>>>>>>> 98bbb5c121c41c2e03e9b9b2384ed4708f29be11
 		})
 	}
 }
