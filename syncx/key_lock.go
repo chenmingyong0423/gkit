@@ -25,6 +25,10 @@ type MapKeyLock struct {
 	locks sync.Map
 }
 
+func NewMapKeyLock() *MapKeyLock {
+	return &MapKeyLock{}
+}
+
 func (l *MapKeyLock) Lock(key string) {
 	mu, _ := l.locks.LoadOrStore(key, &sync.RWMutex{})
 	mu.(*sync.RWMutex).Lock()

@@ -21,7 +21,7 @@ import (
 )
 
 func TestMapKeyLock_Lock(t *testing.T) {
-	lock := MapKeyLock{}
+	lock := NewMapKeyLock()
 	key1, key2 := "key1", "key2"
 	lock.Lock(key1)
 	assert.False(t, lock.TryLock(key1))
@@ -38,7 +38,7 @@ func TestMapKeyLock_Lock(t *testing.T) {
 }
 
 func TestMapKeyLock_RLock(t *testing.T) {
-	lock := MapKeyLock{}
+	lock := NewMapKeyLock()
 	key1, key2 := "key1", "key2"
 
 	lock.RLock(key1)
