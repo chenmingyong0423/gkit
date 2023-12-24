@@ -299,3 +299,44 @@ func TestCombineAndDeduplicateNestedSlicesByEqFunc(t *testing.T) {
 		})
 	}
 }
+
+func TestIndexStructsByKey(t *testing.T) {
+	type User struct {
+		Id   int
+		Name string
+	}
+
+	testCases := []struct {
+		name         string
+		data         []User
+		keyExtractor func(s User) int
+		want         map[int]User
+	}{
+		{
+			name: "nil slice",
+			want: map[int]User{},
+		},
+		{
+			name: "empty slice",
+			data: []User{},
+			want: map[int]User{},
+		},
+		{
+			name: "non-empty slice",
+			data: []User{
+				{Id: 1, Name: "陈明勇"},
+				{Id: 2, Name: "Gopher"},
+			},
+			keyExtractor: func(s User) int { return s.Id },
+			want: map[int]User{
+				1: {Id: 1, Name: "陈明勇"},
+				2: {Id: 2, Name: "Gopher"},
+			},
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, tc.want, IndexStructsByKey[User, int](tc.data, tc.keyExtractor))
+		})
+	}
+}

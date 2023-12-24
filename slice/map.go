@@ -14,6 +14,15 @@
 
 package slice
 
+// IndexStructsByKey 将给定的结构体切片转换为 map，其中键为结构体的某个字段的值，值为结构体本身
+func IndexStructsByKey[T any, K comparable](data []T, keyExtractor func(T) K) map[K]T {
+	result := make(map[K]T, len(data))
+	for _, item := range data {
+		result[keyExtractor(item)] = item
+	}
+	return result
+}
+
 // CombineAndDeduplicateNestedSlicesByEqFunc 从任何类型的切片中提取并组合嵌套的切片，然后使用自定义的比较函数去重
 func CombineAndDeduplicateNestedSlicesByEqFunc[Src any, Dst any](src []Src, extractFunc func(idx int, s Src) []Dst, eqFunc equalFunc[Dst]) []Dst {
 	result := make([]Dst, 0)
