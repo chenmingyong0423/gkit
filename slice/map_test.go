@@ -185,3 +185,117 @@ func TestCombineNestedSlices(t *testing.T) {
 		})
 	}
 }
+
+func TestCombineAndDeduplicateNestedSlices(t *testing.T) {
+	type PostCategory struct {
+		Tags []string
+	}
+	testCases := []struct {
+		name        string
+		slices      []PostCategory
+		extractFunc func(idx int, s PostCategory) []string
+		want        []string
+	}{
+		{
+			name: "nil slice",
+			want: []string{},
+		},
+		{
+			name:   "empty slice",
+			slices: []PostCategory{},
+			want:   []string{},
+		},
+		{
+			name: "non-empty slice with nil Tags",
+			slices: []PostCategory{
+				{},
+			},
+			extractFunc: func(idx int, s PostCategory) []string { return s.Tags },
+			want:        []string{},
+		},
+		{
+			name: "non-empty slice with empty Tags",
+			slices: []PostCategory{
+				{Tags: []string{}},
+			},
+			extractFunc: func(idx int, s PostCategory) []string { return s.Tags },
+			want:        []string{},
+		},
+		{
+			name: "non-empty slice with non-empty Tags",
+			slices: []PostCategory{
+				{Tags: []string{"Go", "Java"}},
+				{Tags: []string{"Vue", "React", "Go"}},
+			},
+			extractFunc: func(idx int, s PostCategory) []string { return s.Tags },
+			want:        []string{"Go", "Java", "Vue", "React"},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.ElementsMatch(t, tc.want, CombineAndDeduplicateNestedSlices(tc.slices, tc.extractFunc))
+		})
+	}
+}
+
+func TestCombineAndDeduplicateNestedSlicesByEqFunc(t *testing.T) {
+	type Tag struct {
+		Id   int
+		Name string
+	}
+	type PostCategory struct {
+		Tags []Tag
+	}
+
+	testCases := []struct {
+		name        string
+		slices      []PostCategory
+		extractFunc func(idx int, s PostCategory) []Tag
+		eqFunc      func(a, b Tag) bool
+		want        []Tag
+	}{
+		{
+			name: "nil slice",
+			want: []Tag{},
+		},
+		{
+			name:   "empty slice",
+			slices: []PostCategory{},
+			want:   []Tag{},
+		},
+		{
+			name: "non-empty slice with nil Tags",
+			slices: []PostCategory{
+				{},
+			},
+			extractFunc: func(idx int, s PostCategory) []Tag { return s.Tags },
+			eqFunc:      func(a, b Tag) bool { return a.Name == b.Name },
+			want:        []Tag{},
+		},
+		{
+			name: "non-empty slice with empty Tags",
+			slices: []PostCategory{
+				{Tags: []Tag{}},
+			},
+			extractFunc: func(idx int, s PostCategory) []Tag { return s.Tags },
+			eqFunc:      func(a, b Tag) bool { return a.Name == b.Name },
+			want:        []Tag{},
+		},
+		{
+			name: "non-empty slice with non-empty Tags",
+			slices: []PostCategory{
+				{Tags: []Tag{{Id: 1, Name: "Go"}, {Id: 2, Name: "Java"}}},
+				{Tags: []Tag{{Id: 3, Name: "Vue"}, {Id: 4, Name: "React"}, {Id: 5, Name: "Go"}}},
+			},
+			extractFunc: func(idx int, s PostCategory) []Tag { return s.Tags },
+			eqFunc:      func(a, b Tag) bool { return a.Name == b.Name },
+			want:        []Tag{{Id: 1, Name: "Go"}, {Id: 2, Name: "Java"}, {Id: 3, Name: "Vue"}, {Id: 4, Name: "React"}},
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.ElementsMatch(t, tc.want, CombineAndDeduplicateNestedSlicesByEqFunc(tc.slices, tc.extractFunc, tc.eqFunc))
+		})
+	}
+}

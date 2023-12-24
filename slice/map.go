@@ -14,6 +14,24 @@
 
 package slice
 
+// CombineAndDeduplicateNestedSlicesByEqFunc 从任何类型的切片中提取并组合嵌套的切片，然后使用自定义的比较函数去重
+func CombineAndDeduplicateNestedSlicesByEqFunc[Src any, Dst any](src []Src, extractFunc func(idx int, s Src) []Dst, eqFunc equalFunc[Dst]) []Dst {
+	result := make([]Dst, 0)
+	for i, s := range src {
+		result = append(result, extractFunc(i, s)...)
+	}
+	return DeduplicateByEqFunc(result, eqFunc)
+}
+
+// CombineAndDeduplicateNestedSlices 从任何类型的切片中提取并组合嵌套的切片，然后去重
+func CombineAndDeduplicateNestedSlices[Src any, Dst comparable](src []Src, extractFunc func(idx int, s Src) []Dst) []Dst {
+	result := make([]Dst, 0)
+	for i, s := range src {
+		result = append(result, extractFunc(i, s)...)
+	}
+	return Deduplicate(result)
+}
+
 // CombineNestedSlices 从任何类型的切片中提取并组合嵌套的切片
 func CombineNestedSlices[Src any, Dst any](src []Src, extractFunc func(idx int, s Src) []Dst) []Dst {
 	result := make([]Dst, 0)
