@@ -14,6 +14,15 @@
 
 package slice
 
+// CombineNestedSlices 从任何类型的切片中提取并组合嵌套的切片
+func CombineNestedSlices[Src any, Dst any](src []Src, extractFunc func(idx int, s Src) []Dst) []Dst {
+	result := make([]Dst, 0)
+	for i, s := range src {
+		result = append(result, extractFunc(i, s)...)
+	}
+	return result
+}
+
 // Map 将给定的切片转换成一个新的切片，其中每个元素都是通过给定的函数 fn 转换得到的。
 func Map[Src any, Dst any](src []Src, fn func(idx int, s Src) Dst) []Dst {
 	dst := make([]Dst, len(src))

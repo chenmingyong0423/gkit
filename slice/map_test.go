@@ -132,3 +132,56 @@ func TestMap(t *testing.T) {
 		})
 	}
 }
+
+func TestCombineNestedSlices(t *testing.T) {
+	type PostCategory struct {
+		Tags []string
+	}
+	testCases := []struct {
+		name        string
+		slices      []PostCategory
+		extractFunc func(idx int, s PostCategory) []string
+		want        []string
+	}{
+		{
+			name: "nil slice",
+			want: []string{},
+		},
+		{
+			name:   "empty slice",
+			slices: []PostCategory{},
+			want:   []string{},
+		},
+		{
+			name: "non-empty slice with nil Tags",
+			slices: []PostCategory{
+				{},
+			},
+			extractFunc: func(idx int, s PostCategory) []string { return s.Tags },
+			want:        []string{},
+		},
+		{
+			name: "non-empty slice with empty Tags",
+			slices: []PostCategory{
+				{Tags: []string{}},
+			},
+			extractFunc: func(idx int, s PostCategory) []string { return s.Tags },
+			want:        []string{},
+		},
+		{
+			name: "non-empty slice with non-empty Tags",
+			slices: []PostCategory{
+				{Tags: []string{"Go", "Java"}},
+				{Tags: []string{"Vue", "React", "Go"}},
+			},
+			extractFunc: func(idx int, s PostCategory) []string { return s.Tags },
+			want:        []string{"Go", "Java", "Vue", "React", "Go"},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, tc.want, CombineNestedSlices(tc.slices, tc.extractFunc))
+		})
+	}
+}
