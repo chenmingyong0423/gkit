@@ -33,6 +33,8 @@ func RearrangeStrUUID4(uuid string) (string, error) {
 	return parts[2] + parts[1] + parts[0] + parts[3] + parts[4], nil
 }
 
-func RearrangeUUID4() (string, error) {
-	return RearrangeStrUUID4(UUID4())
+func RearrangeUUID4() string {
+	// error 基本上可以忽略
+	rearrangeStrUUID4, _ := RearrangeStrUUID4(UUID4())
+	return rearrangeStrUUID4
 }

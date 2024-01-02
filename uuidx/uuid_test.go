@@ -62,8 +62,7 @@ func TestRearrangeUUID(t *testing.T) {
 
 func TestRearrangeUUID4(t *testing.T) {
 	t.Run("rearrange uuid4", func(t *testing.T) {
-		uuid, err := RearrangeUUID4()
-		assert.NoError(t, err)
+		uuid := RearrangeUUID4()
 		assert.NotEmpty(t, uuid)
 	})
 }
