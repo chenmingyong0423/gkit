@@ -50,6 +50,17 @@ func CombineNestedSlices[Src any, Dst any](src []Src, extractFunc func(idx int, 
 	return result
 }
 
+// FilterMap 将给定的切片转换成一个新的切片，其中每个元素都是通过给定的函数 fn 转换得到的。如果 fn 返回的是 bool，则元素将被忽略。
+func FilterMap[Src any, Dst any](src []Src, fn func(idx int, s Src) (Dst, bool)) []Dst {
+	dst := make([]Dst, 0, len(src))
+	for i, s := range src {
+		if item, ok := fn(i, s); ok {
+			dst = append(dst, item)
+		}
+	}
+	return dst
+}
+
 // Map 将给定的切片转换成一个新的切片，其中每个元素都是通过给定的函数 fn 转换得到的。
 func Map[Src any, Dst any](src []Src, fn func(idx int, s Src) Dst) []Dst {
 	dst := make([]Dst, len(src))

@@ -340,3 +340,49 @@ func TestIndexStructsByKey(t *testing.T) {
 		})
 	}
 }
+
+func TestFilterMap(t *testing.T) {
+	type user struct {
+		id   int
+		name string
+	}
+
+	testCases := []struct {
+		name string
+		src  []user
+		fn   func(idx int, s user) (int, bool)
+		want []int
+	}{
+		{
+			name: "nil slice",
+			src:  nil,
+			fn:   func(idx int, s user) (int, bool) { return s.id, true },
+			want: []int{},
+		},
+		{
+			name: "empty slice",
+			src:  []user{},
+			fn:   func(idx int, s user) (int, bool) { return s.id, true },
+			want: []int{},
+		},
+		{
+			name: "non-empty slice",
+			src: []user{
+				{id: 1, name: "陈明勇"},
+				{id: 2, name: "Gopher"},
+			},
+			fn: func(idx int, s user) (int, bool) {
+				if s.name == "陈明勇" {
+					return s.id, true
+				}
+				return 0, false
+			},
+			want: []int{1},
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.ElementsMatch(t, tc.want, FilterMap(tc.src, tc.fn))
+		})
+	}
+}
